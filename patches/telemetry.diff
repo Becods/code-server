@@ -143,29 +143,4 @@ Index: code-server/lib/vscode/src/vs/server/node/webClientServer.ts
  			embedderIdentifier: 'server-distro',
  			extensionsGallery: this._productService.extensionsGallery,
  		};
-Index: code-server/lib/vscode/src/vs/base/common/product.ts
-===================================================================
---- code-server.orig/lib/vscode/src/vs/base/common/product.ts
-+++ code-server/lib/vscode/src/vs/base/common/product.ts
-@@ -65,6 +65,7 @@ export interface IProductConfiguration {
- 		readonly path: string;
- 		readonly scope: string;
- 	}
-+	readonly telemetryEndpoint?: string
- 
- 	readonly version: string;
- 	readonly date?: string;
-Index: code-server/lib/vscode/src/vs/platform/product/common/product.ts
-===================================================================
---- code-server.orig/lib/vscode/src/vs/platform/product/common/product.ts
-+++ code-server/lib/vscode/src/vs/platform/product/common/product.ts
-@@ -57,7 +57,8 @@ else if (globalThis._VSCODE_PRODUCT_JSON
- 			resourceUrlTemplate: "https://open-vsx.org/vscode/asset/{publisher}/{name}/{version}/Microsoft.VisualStudio.Code.WebResources/{path}",
- 			controlUrl: "",
- 			recommendationsUrl: "",
--		})
-+		}),
-+		telemetryEndpoint: env.CS_TELEMETRY_URL || product.telemetryEndpoint || "https://v1.telemetry.coder.com/track",
- 	});
- }
- 
+
