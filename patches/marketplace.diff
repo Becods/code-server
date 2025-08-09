@@ -89,3 +89,33 @@ Index: code-server/lib/vscode/src/vs/platform/extensionResourceLoader/common/ext
  	}
  
  }
++Index: code-server/lib/vscode/src/vs/workbench/contrib/extensions/browser/extensions.contribution.ts
++===================================================================
++--- code-server.orig/lib/vscode/src/vs/workbench/contrib/extensions/browser/extensions.contribution.ts
+++++ code-server/lib/vscode/src/vs/workbench/contrib/extensions/browser/extensions.contribution.ts
++@@ -154,7 +154,7 @@
++ 			'extensions.autoCheckUpdates': {
++ 				type: 'boolean',
++ 				description: localize('extensionsCheckUpdates', "When enabled, automatically checks extensions for updates. If an extension has an update, it is marked as outdated in the Extensions view. The updates are fetched from a Microsoft online service."),
++-				default: true,
+++				default: false,
++ 				scope: ConfigurationScope.APPLICATION,
++ 				tags: ['usesOnlineServices']
++ 			},
++Index: code-server/lib/vscode/src/vs/workbench/contrib/extensions/browser/extensionsWorkbenchService.ts
++===================================================================
++--- code-server.orig/lib/vscode/src/vs/workbench/contrib/extensions/browser/extensionsWorkbenchService.ts
+++++ code-server/lib/vscode/src/vs/workbench/contrib/extensions/browser/extensionsWorkbenchService.ts
++@@ -1155,8 +1155,10 @@
++ 		// Update AutoUpdate Contexts
++ 		this.hasOutdatedExtensionsContextKey.set(this.outdated.length > 0);
++ 
++-		// Check for updates
++-		this.eventuallyCheckForUpdates(true);
+++		// Check for updates only if auto check is enabled
+++		if (this.isAutoCheckUpdatesEnabled()) {
+++			this.eventuallyCheckForUpdates(true);
+++		}
++ 
++ 		if (isWeb) {
++ 			this.syncPinnedBuiltinExtensions();
